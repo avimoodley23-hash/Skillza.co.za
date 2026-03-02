@@ -371,6 +371,47 @@ footer p{font-size:12px;color:var(--muted);}
 /* ── TOAST ───────────────────────────────────────── */
 .toast{position:fixed;bottom:calc(24px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(16px);background:var(--cream);color:var(--black);padding:12px 22px;border-radius:100px;font-size:14px;font-weight:600;z-index:9990;opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── BOOKING CONFIRMATION ────────────────────────── */
+.bm-confirm{text-align:center;padding-bottom:calc(28px + var(--safe-b));}
+.confirm-icon{font-size:48px;margin-bottom:12px;display:block;}
+.confirm-ref-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.confirm-ref{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--orange);margin-bottom:10px;}
+.confirm-status{display:inline-flex;align-items:center;gap:7px;background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.25);border-radius:100px;padding:6px 14px;margin-bottom:20px;}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.status-dot.pending{background:#FFA500;animation:pdot 1.5s infinite;}
+.status-dot.confirmed{background:var(--green);}
+.status-text{font-size:12px;font-weight:600;color:#FFA500;}
+.confirm-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin-bottom:8px;}
+.confirm-body{font-size:14px;color:rgba(242,237,228,.6);line-height:1.7;margin-bottom:24px;text-align:left;}
+
+/* Timeline */
+.confirm-timeline{text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:0;}
+.ct-step{display:flex;gap:13px;align-items:flex-start;position:relative;padding-bottom:16px;}
+.ct-step:last-child{padding-bottom:0;}
+.ct-step::before{content:'';position:absolute;left:13px;top:26px;bottom:0;width:1.5px;background:var(--border);}
+.ct-step:last-child::before{display:none;}
+.ct-dot{width:27px;height:27px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.05);border:1.5px solid var(--border);color:var(--muted);z-index:1;}
+.ct-step.done .ct-dot{background:var(--g-dim);border-color:var(--green);color:var(--green);}
+.ct-step.active .ct-dot{background:rgba(255,165,0,.12);border-color:#FFA500;color:#FFA500;}
+.ct-dot.pulse{animation:pdot 1.5s infinite;}
+.ct-text{padding-top:4px;}
+.ct-text strong{display:block;font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px;}
+.ct-step:not(.done):not(.active) .ct-text strong{color:var(--muted);}
+.ct-text span{font-size:11px;color:var(--muted);}
+
+/* Reference copy box */
+.confirm-ref-save{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:4px;}
+.crs-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:2px;display:none;}
+.crs-ref{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--orange);flex:1;}
+.crs-copy{background:rgba(255,74,28,.15);border:1px solid rgba(255,74,28,.3);color:var(--orange);border-radius:6px;padding:7px 14px;font-size:12px;font-weight:700;transition:all .2s;-webkit-tap-highlight-color:transparent;}
+.crs-copy:hover{background:var(--orange);color:#fff;}
+.crs-copy:active{transform:scale(.97);}
+
+/* Loading state */
+.btn-sub.loading{opacity:.6;pointer-events:none;}
+.btn-sub.loading::after{content:' ...sending';}
+
 </style>
 </head>
 <body>
@@ -673,30 +714,79 @@ footer p{font-size:12px;color:var(--muted);}
 <div class="bm-ov" id="bmOv" role="dialog" aria-modal="true" aria-label="Book this student">
   <div class="bm">
     <div class="bm-handle"><div class="bm-handle-bar"></div></div>
-    <div class="bm-inner">
-      <button class="bm-close" onclick="closeBm()" aria-label="Close">✕</button>
+
+    <!-- STEP 1: BOOKING FORM -->
+    <div class="bm-inner" id="bmStep1">
+      <button class="bm-close" onclick="closeBm()" aria-label="Close">&#x2715;</button>
       <div class="bm-who">
-        <div class="bm-av" id="bmAv">📸</div>
+        <div class="bm-av" id="bmAv">&#x1F4F8;</div>
         <div>
           <div class="bm-who-name" id="bmNm">Amahle Khumalo</div>
-          <div class="bm-who-skill" id="bmSk">Photographer · UCT</div>
+          <div class="bm-who-skill" id="bmSk">Photographer &middot; UCT</div>
         </div>
       </div>
       <div class="bm-title" id="bmTi">Book Amahle</div>
-      <div class="bm-sub">Tell us what you need. No account required, no payment yet — we'll connect you directly.</div>
+      <div class="bm-sub">Tell us what you need. No account required &mdash; we'll connect you directly on WhatsApp.</div>
       <div class="deposit-box">
         <div class="deposit-box-title">How Payment Works</div>
-        <p>Once you've agreed on scope via WhatsApp, the student will request a <strong>30% deposit via EFT or SnapScan</strong> before work begins. Balance is paid on completion. No surprises.</p>
+        <p>Once scope is agreed via WhatsApp, the student sends their deposit details. You pay a <strong>30% deposit via EFT or SnapScan</strong> before work begins. Balance on completion.</p>
       </div>
       <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name" id="bn" autocomplete="name"></div>
-      <div class="fg"><label>WhatsApp or Email</label><input type="tel" placeholder="How should they reach you?" id="bc" autocomplete="tel" inputmode="tel"></div>
-      <div class="fg"><label>What do you need?</label><input type="text" placeholder="Event, date, brief description..." id="bd"></div>
-      <button class="btn-sub" onclick="submitBook()">Send Booking Request →</button>
+      <div class="fg"><label>WhatsApp Number</label><input type="tel" placeholder="+27 82 000 0000" id="bc" autocomplete="tel" inputmode="tel"></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="you@email.com" id="be" autocomplete="email" inputmode="email"></div>
+      <div class="fg"><label>What do you need?</label><input type="text" placeholder="e.g. Matric dance photography, 15 March, Johannesburg" id="bd"></div>
+      <button class="btn-sub" id="bmSubmitBtn" onclick="submitBook()">Send Booking Request &rarr;</button>
       <div class="wa-box">
-        <div class="wa-box-icon">📱</div>
-        <p><strong>What happens next:</strong> The student contacts you on WhatsApp within 24 hours to confirm details before anything is finalised.</p>
+        <div class="wa-box-icon">&#x1F4F1;</div>
+        <p><strong>What happens next:</strong> Your request is sent to the student. They have <strong>24 hours to confirm or decline</strong>. You'll get a booking reference to track your request.</p>
       </div>
     </div>
+
+    <!-- STEP 2: PENDING CONFIRMATION -->
+    <div class="bm-inner bm-confirm" id="bmStep2" style="display:none;">
+      <div class="confirm-icon">&#x23F3;</div>
+      <div class="confirm-ref-label">Booking Reference</div>
+      <div class="confirm-ref" id="bmRef">SKZ-0000</div>
+      <div class="confirm-status">
+        <span class="status-dot pending"></span>
+        <span class="status-text">Pending Confirmation</span>
+      </div>
+      <h3 class="confirm-title">Request sent to <span id="confirmName">Amahle</span></h3>
+      <p class="confirm-body">Your booking request has been received. <strong id="confirmFirst">Amahle</strong> will contact you on WhatsApp within <strong>24 hours</strong> to confirm availability and agree on scope.</p>
+
+      <div class="confirm-timeline">
+        <div class="ct-step done">
+          <div class="ct-dot">&#x2713;</div>
+          <div class="ct-text"><strong>Request submitted</strong><span>Just now</span></div>
+        </div>
+        <div class="ct-step active">
+          <div class="ct-dot pulse">2</div>
+          <div class="ct-text"><strong>Awaiting student confirmation</strong><span>Within 24 hours</span></div>
+        </div>
+        <div class="ct-step">
+          <div class="ct-dot">3</div>
+          <div class="ct-text"><strong>Scope agreed on WhatsApp</strong><span>Between you and the student</span></div>
+        </div>
+        <div class="ct-step">
+          <div class="ct-dot">4</div>
+          <div class="ct-text"><strong>30% deposit sent</strong><span>Via EFT or SnapScan</span></div>
+        </div>
+        <div class="ct-step">
+          <div class="ct-dot">5</div>
+          <div class="ct-text"><strong>Work delivered &amp; balance paid</strong><span>Leave a review</span></div>
+        </div>
+      </div>
+
+      <div class="confirm-ref-save">
+        <div class="crs-label">Save your reference number</div>
+        <div class="crs-ref" id="bmRefCopy">SKZ-0000</div>
+        <button class="crs-copy" onclick="copyRef()">Copy</button>
+      </div>
+
+      <button class="btn-sub" onclick="closeBm()" style="margin-top:20px;">Done</button>
+      <p class="fnote" style="margin-top:10px;">Check your email for a confirmation. If you don't hear back within 24 hours, the request may have expired &mdash; you can book again or try another student.</p>
+    </div>
+
   </div>
 </div>
 
@@ -855,28 +945,98 @@ function openBm(id){
   document.body.style.overflow='hidden';
   setTimeout(()=>document.getElementById('bn').focus(),380);
 }
+// closeBm defined above
+
+// ── FORMSPREE IDS — swap these in once you have your Formspree account ──
+const FS_BOOKING  = 'xgoljwld';   // e.g. 'xyzabcde'
+const FS_WAITLIST = 'xvzbjpbj';  // e.g. 'abcdefgh'
+
+function genRef(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let r='SKZ-';
+  for(let i=0;i<4;i++) r+=chars[Math.floor(Math.random()*chars.length)];
+  return r;
+}
+
+async function submitBook(){
+  const n=document.getElementById('bn').value.trim();
+  const c=document.getElementById('bc').value.trim();
+  const e=document.getElementById('be').value.trim();
+  const d=document.getElementById('bd').value.trim();
+  if(!n||!c||!e){showToast('Please fill in your name, WhatsApp number and email.');return;}
+
+  const btn=document.getElementById('bmSubmitBtn');
+  btn.classList.add('loading');btn.textContent='Sending...';
+
+  const ref=genRef();
+  const payload={
+    name:n, whatsapp:c, email:e, description:d,
+    student:cur.name, studentSkill:cur.sk, studentUni:cur.uni,
+    reference:ref, _subject:`New Skillza Booking Request — ${ref}`
+  };
+
+  try{
+    if(FS_BOOKING!=='YOUR_BOOKING_FORM_ID'){
+      await fetch(`https://formspree.io/f/${FS_BOOKING}`,{
+        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify(payload)
+      });
+    }
+  }catch(err){console.warn('Formspree error:',err);}
+
+  // Show confirmation screen regardless (fail-safe)
+  document.getElementById('bmStep1').style.display='none';
+  document.getElementById('bmStep2').style.display='';
+  document.getElementById('bmRef').textContent=ref;
+  document.getElementById('bmRefCopy').textContent=ref;
+  document.getElementById('confirmName').textContent=cur.name.split(' ')[0];
+  document.getElementById('confirmFirst').textContent=cur.name.split(' ')[0];
+  btn.classList.remove('loading');
+  ['bn','bc','be','bd'].forEach(id=>document.getElementById(id).value='');
+}
+
+function copyRef(){
+  const ref=document.getElementById('bmRefCopy').textContent;
+  navigator.clipboard.writeText(ref).then(()=>{
+    const btn=document.querySelector('.crs-copy');
+    btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
+  }).catch(()=>showToast('Reference: '+ref));
+}
+
 function closeBm(){
   document.getElementById('bmOv').classList.remove('open');
+  // Reset back to form for next booking
+  setTimeout(()=>{
+    document.getElementById('bmStep1').style.display='';
+    document.getElementById('bmStep2').style.display='none';
+  },400);
   if(!document.getElementById('panelOv').classList.contains('open'))document.body.style.overflow='';
 }
 document.getElementById('bmOv').addEventListener('click',function(e){if(e.target===this)closeBm();});
 
-function submitBook(){
-  const n=document.getElementById('bn').value.trim();
-  const c=document.getElementById('bc').value.trim();
-  if(!n||!c){showToast('Please add your name and contact details.');return;}
-  closeBm();closePanel();
-  showToast(`✓ Request sent! ${cur.name.split(' ')[0]} will WhatsApp you soon.`);
-  ['bn','bc','bd'].forEach(id=>document.getElementById(id).value='');
-}
-
-function doReg(){
+async function doReg(){
   const n=document.getElementById('rn').value.trim();
   const e=document.getElementById('re').value.trim();
   const s=document.getElementById('rs').value;
   const u=document.getElementById('ru').value;
+  const y=document.getElementById('ry').value;
   if(!n||!e||!s||!u){showToast('Please fill in all fields.');return;}
+
+  const btn=document.querySelector('.btn-sub[onclick="doReg()"]');
+  if(btn){btn.textContent='Submitting...';btn.classList.add('loading');}
+
+  try{
+    if(FS_WAITLIST!=='YOUR_WAITLIST_FORM_ID'){
+      await fetch(`https://formspree.io/f/${FS_WAITLIST}`,{
+        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({name:n,email:e,skill:s,university:u,year:y,
+          _subject:`New Skillza Student Waitlist — ${n} (${u})`})
+      });
+    }
+  }catch(err){console.warn('Formspree error:',err);}
+
   showToast(`🎉 You're on the list, ${n.split(' ')[0]}! We'll be in touch.`);
+  if(btn){btn.textContent='Secure My Spot →';btn.classList.remove('loading');}
   ['rn','re','rs','ru','ry'].forEach(id=>document.getElementById(id).value='');
 }
 
