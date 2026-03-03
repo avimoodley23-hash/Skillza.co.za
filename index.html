@@ -3,19 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="var(--black)">
 <title>Skillza — SA's Student Talent Marketplace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ─────────────────────────────────────── */
 :root{
-  --black:#0A0A0A; --cream:#F2EDE4; --orange:#FF4A1C;
-  --o-dim:rgba(255,74,28,.12); --gold:#D4A853;
-  --muted:#8A8278; --border:rgba(255,255,255,.09);
-  --card:rgba(255,255,255,.04); --ch:rgba(255,255,255,.07);
-  --green:#2ECC71; --g-dim:rgba(46,204,113,.12);
-  --blue:#4F8EF7; --b-dim:rgba(79,142,247,.12);
+  /* Core — warm editorial dark */
+  --black:#100F0D;        /* warm ink, not cold tech */
+  --black-2:#161410;      /* card surface */
+  --black-3:#1D1B17;      /* elevated card */
+  --cream:#F5EFE3;        /* warm parchment, not stark white */
+  --cream-dim:rgba(245,239,227,.6);
+  --cream-faint:rgba(245,239,227,.08);
+
+  /* Brand — fire orange kept, intensified slightly */
+  --orange:#FF4B1F;
+  --orange-2:#FF6B42;     /* lighter — hover states, gradients */
+  --o-dim:rgba(255,75,31,.12);
+  --o-bright:rgba(255,75,31,.22);
+
+  /* Secondary — warm sand/terracotta (the missing ingredient) */
+  --sand:#C8956C;         /* earthy warmth, pairs with orange */
+  --sand-dim:rgba(200,149,108,.12);
+
+  /* Status */
+  --green:#34D58E;        --g-dim:rgba(52,213,142,.12);
+  --blue:#5B9CF6;         --b-dim:rgba(91,156,246,.12);
+  --gold:#D4A853;
+
+  /* UI chrome */
+  --muted:#7A7469;
+  --muted-2:#9A9189;
+  --border:rgba(245,239,227,.07);
+  --border-2:rgba(245,239,227,.12);
+  --card:rgba(245,239,227,.03);
+  --card-2:rgba(245,239,227,.055);
+
+  /* System */
   --safe-b:env(safe-area-inset-bottom,0px);
   --safe-t:env(safe-area-inset-top,0px);
 }
@@ -23,7 +49,10 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
 body{font-family:'Instrument Sans',sans-serif;background:var(--black);color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
 a{text-decoration:none;color:inherit;}
-body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* Warm grain overlay — slightly more visible, warmer */
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+/* Radial warm glow at top — subtle ambience */
+body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center,rgba(255,75,31,.04) 0%,transparent 65%);pointer-events:none;z-index:0;}
 
 /* desktop cursor */
 @media(hover:hover){
@@ -35,47 +64,86 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 }
 
 /* ── NAV ─────────────────────────────────────────── */
-.nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(10,10,10,.9);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;}
+.nav{position:fixed;top:0;left:0;right:0;z-index:400;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;background:rgba(16,15,13,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--cream);}
 .nav-logo em{color:var(--orange);font-style:normal;}
 .nav-links{display:flex;align-items:center;gap:28px;}
-.nav-links a{font-size:13px;font-weight:500;color:var(--muted);transition:color .2s;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);transition:color .2s;letter-spacing:.2px;}
 .nav-links a:hover{color:var(--cream);}
-.nav-cta{background:var(--orange);color:#fff !important;padding:9px 20px;border-radius:6px;font-weight:600;transition:background .2s,transform .2s;}
-.nav-cta:hover{background:#e03a10 !important;transform:translateY(-1px);}
+.nav-cta{background:var(--orange);color:#fff !important;padding:9px 20px;border-radius:6px;font-weight:600;letter-spacing:.3px;transition:all .2s;}
+.nav-cta:hover{background:var(--orange-2) !important;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,75,31,.3);}
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px;-webkit-tap-highlight-color:transparent;}
-.nav-ham span{display:block;width:22px;height:2px;background:var(--cream);border-radius:2px;transition:all .3s;}
+.nav-ham span{display:block;width:22px;height:1.5px;background:var(--cream);border-radius:2px;transition:all .3s;}
 .nav-ham.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
 .nav-ham.open span:nth-child(2){opacity:0;}
 .nav-ham.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-.nav-mob{position:fixed;top:0;left:0;right:0;z-index:398;background:rgba(10,10,10,.98);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:calc(60px + 8px) 20px 20px;transform:translateY(-110%);transition:transform .35s cubic-bezier(.16,1,.3,1);}
-.nav-mob.open{transform:translateY(0);}
-.nav-mob a{display:block;padding:13px 16px;font-size:16px;font-weight:500;color:var(--muted);border-radius:10px;transition:all .2s;-webkit-tap-highlight-color:transparent;}
-.nav-mob a:active{background:var(--card);color:var(--cream);}
-.nav-mob .mob-cta{background:var(--orange);color:#fff;text-align:center;margin-top:8px;font-weight:600;}
+/* Mobile nav — full overlay style, not dropdown */
+.nav-mob{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:398;
+  background:rgba(16,15,13,.98);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  padding:80px 28px 40px;
+  transform:translateX(100%);
+  transition:transform .38s cubic-bezier(.16,1,.3,1);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.nav-mob.open{transform:translateX(0);}
+.nav-mob-links{display:flex;flex-direction:column;gap:4px;flex:1;}
+.nav-mob a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0;font-size:28px;font-family:'Bebas Neue',sans-serif;
+  letter-spacing:1.5px;color:var(--muted-2);
+  border-bottom:1px solid var(--border);
+  transition:color .2s;-webkit-tap-highlight-color:transparent;
+}
+.nav-mob a:first-child{border-top:1px solid var(--border);}
+.nav-mob a:hover,.nav-mob a:active{color:var(--cream);}
+.nav-mob a .arr{font-size:18px;opacity:0.3;transition:opacity .2s,transform .2s;}
+.nav-mob a:hover .arr{opacity:1;transform:translateX(4px);}
+.nav-mob .mob-cta{
+  background:var(--orange);color:#fff;
+  text-align:center;margin-top:20px;
+  padding:16px;border-radius:10px;
+  font-family:'Bebas Neue',sans-serif;font-size:22px;
+  letter-spacing:2px;border:none;font-weight:400;
+}
 @media(max-width:700px){.nav-links{display:none;}.nav-ham{display:flex;}}
 
 /* ── SCROLL PROGRESS ─────────────────────────────── */
 .scroll-bar{position:fixed;top:0;left:0;height:2px;background:var(--orange);z-index:500;width:0%;transition:width .1s linear;pointer-events:none;}
 
 /* ── SHARED UTILITIES ────────────────────────────── */
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .eyebrow::before{content:'';width:18px;height:1.5px;background:var(--orange);}
-.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,60px);line-height:.95;letter-spacing:1px;margin-bottom:16px;}
-.sec-sub{font-size:clamp(14px,1.8vw,16px);line-height:1.8;color:rgba(242,237,228,.6);max-width:500px;}
-.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;padding:14px 28px;border-radius:8px;font-size:14px;font-weight:600;border:none;transition:all .25s;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-.btn-primary:hover{background:#e03a10;transform:translateY(-2px);}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,60px);line-height:.93;letter-spacing:1px;margin-bottom:14px;}
+.sec-sub{font-size:clamp(14px,1.8vw,15px);line-height:1.8;color:var(--cream-dim);max-width:480px;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange);color:#fff;
+  padding:14px 28px;border-radius:8px;
+  font-size:14px;font-weight:600;border:none;
+  transition:all .25s;white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  box-shadow:0 4px 18px rgba(255,75,31,.25);
+}
+.btn-primary:hover{background:var(--orange-2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,75,31,.38);}
 .btn-primary:active{transform:translateY(0);}
-.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--cream);border:1.5px solid rgba(242,237,228,.25);padding:13px 28px;border-radius:8px;font-size:14px;font-weight:600;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
-.btn-outline:hover{border-color:var(--cream);background:rgba(255,255,255,.05);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--cream);border:1.5px solid rgba(245,239,227,.2);padding:13px 28px;border-radius:8px;font-size:14px;font-weight:600;transition:all .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.btn-outline:hover{border-color:rgba(245,239,227,.5);background:rgba(245,239,227,.04);}
 .tag-pill{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:20px;}
-.tag-orange{background:var(--o-dim);color:var(--orange);border:1px solid rgba(255,74,28,.2);}
-.tag-blue{background:var(--b-dim);color:var(--blue);border:1px solid rgba(79,142,247,.2);}
+.tag-orange{background:var(--o-dim);color:var(--orange);border:1px solid rgba(255,75,31,.2);}
+.tag-blue{background:var(--b-dim);color:var(--blue);border:1px solid rgba(91,156,246,.2);}
 
 /* ── HERO ────────────────────────────────────────── */
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:calc(60px + 48px) 24px 48px;position:relative;overflow:hidden;}
 @media(min-width:900px){.hero{padding:140px 52px 80px;}}
-.hero-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,28vw,380px);color:rgba(255,255,255,.01);white-space:nowrap;pointer-events:none;letter-spacing:6px;user-select:none;}
+/* Warm radial + diagonal light leak */
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:60%;background:linear-gradient(180deg,rgba(255,75,31,.03) 0%,transparent 100%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,var(--black) 0%,transparent 100%);pointer-events:none;}
+.hero-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,28vw,380px);color:rgba(245,239,227,.012);white-space:nowrap;pointer-events:none;letter-spacing:6px;user-select:none;}
+/* Decorative orange accent line */
+.hero-line{position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,transparent 0%,var(--orange) 30%,var(--orange) 70%,transparent 100%);opacity:.25;}
 .hero-inner{position:relative;z-index:1;}
 @media(min-width:900px){.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:flex-end;}}
 
@@ -93,16 +161,16 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 @media(min-width:500px){.hero-two-sides{flex-direction:row;flex-wrap:wrap;}}
 .side-pill{
   display:flex;align-items:flex-start;gap:12px;
-  background:rgba(255,255,255,.035);border:1px solid var(--border);
+  background:rgba(245,239,227,.03);border:1px solid var(--border);
   border-radius:12px;padding:14px 16px;flex:1;min-width:180px;
   transition:border-color .2s,background .2s;
 }
-.side-pill:hover{border-color:rgba(255,74,28,.2);background:rgba(255,74,28,.03);}
+.side-pill:hover{border-color:rgba(255,75,31,.25);background:rgba(255,75,31,.04);}
 .sp-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
 .sp-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
 .sp-label.orange{color:var(--orange);}
 .sp-label.blue{color:var(--blue);}
-.sp-body{font-size:12.5px;line-height:1.55;color:rgba(242,237,228,.5);}
+.sp-body{font-size:12.5px;line-height:1.55;color:rgba(245,239,227,.5);}
 
 .hero-acts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
 
@@ -118,7 +186,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   .two-sides{display:grid;grid-template-columns:1fr 1fr;}
   .ts-half{padding:80px 52px;}
 }
-.ts-half.client{background:#0F0F0F;border-bottom:1px solid var(--border);}
+.ts-half.client{background:var(--black-2);border-bottom:1px solid var(--border);}
 .ts-half.student{background:var(--black);border-bottom:none;}
 @media(min-width:900px){
   .ts-half.client{border-bottom:none;border-right:1px solid var(--border);}
@@ -126,7 +194,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 }
 
 .ts-half .sec-title{color:var(--cream);}
-.ts-half .sec-sub{color:rgba(242,237,228,.6);}
+.ts-half .sec-sub{color:rgba(245,239,227,.6);}
 
 /* Feature list */
 .feat-list{margin-top:28px;display:flex;flex-direction:column;gap:16px;}
@@ -135,7 +203,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .feat-icon.orange{background:var(--o-dim);}
 .feat-icon.blue{background:var(--b-dim);}
 .feat h4{font-size:13px;font-weight:700;margin-bottom:2px;}
-.feat p{font-size:12.5px;line-height:1.6;color:rgba(242,237,228,.5);}
+.feat p{font-size:12.5px;line-height:1.6;color:rgba(245,239,227,.5);}
 
 /* Quote cards */
 .ts-quote{
@@ -146,7 +214,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 }
 .ts-quote.orange{border-left-color:var(--orange);}
 .ts-quote.blue{border-left-color:var(--blue);}
-.ts-quote-text{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;line-height:1.65;color:rgba(242,237,228,.8);margin-bottom:12px;}
+.ts-quote-text{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;line-height:1.65;color:rgba(245,239,227,.8);margin-bottom:12px;}
 .ts-quote-source{font-size:12px;font-weight:600;color:var(--muted);}
 
 /* ── TICKER ──────────────────────────────────────── */
@@ -169,8 +237,8 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 
 .phase-callout{margin-top:28px;background:rgba(255,74,28,.04);border:1px solid rgba(255,74,28,.1);border-left:3px solid var(--orange);border-radius:0 10px 10px 0;padding:18px 20px;}
 .pc-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;}
-.pc-body{font-size:13.5px;color:rgba(242,237,228,.5);line-height:1.7;}
-.pc-body strong{color:rgba(242,237,228,.8);}
+.pc-body{font-size:13.5px;color:rgba(245,239,227,.5);line-height:1.7;}
+.pc-body strong{color:rgba(245,239,227,.8);}
 
 /* ── VERIFY ──────────────────────────────────────── */
 .verify{padding:clamp(48px,8vw,80px) 24px;border-bottom:1px solid var(--border);}
@@ -220,13 +288,13 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 @media(min-width:700px){.tgrid{gap:20px;}}
 
 /* Card */
-.tc{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;animation:fup .5s ease both;-webkit-tap-highlight-color:transparent;}
+.tc{background:var(--black-2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s;animation:fup .5s ease both;-webkit-tap-highlight-color:transparent;}
 @keyframes fup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@media(hover:hover){.tc:hover{background:var(--ch);border-color:rgba(255,74,28,.3);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.4);}}
+@media(hover:hover){.tc:hover{background:var(--black-3);border-color:rgba(255,75,31,.3);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.4);}}
 .tc:active{transform:scale(.99);}
 .tc-img{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#1a1a1a,#111);display:flex;align-items:center;justify-content:center;font-size:52px;overflow:hidden;}
-.tc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.8) 0,transparent 55%);}
-.tc-uni{position:absolute;top:12px;left:12px;z-index:1;background:rgba(10,10,10,.72);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;}
+.tc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(16,15,13,.8) 0,transparent 55%);}
+.tc-uni{position:absolute;top:12px;left:12px;z-index:1;background:rgba(16,15,13,.72);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;}
 .tc-ver{position:absolute;top:12px;right:12px;z-index:1;background:var(--g-dim);border:1px solid rgba(46,204,113,.35);color:var(--green);font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;}
 .tc-body{padding:15px;}
 .tc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px;}
@@ -234,7 +302,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .tc-rt{font-size:13px;color:var(--gold);font-weight:600;}
 .tc-sk{font-size:12px;color:var(--muted);margin-bottom:11px;}
 .tc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px;}
-.tc-tag{font-size:10px;padding:3px 8px;border-radius:100px;background:rgba(255,255,255,.05);color:rgba(242,237,228,.5);border:1px solid rgba(255,255,255,.07);}
+.tc-tag{font-size:10px;padding:3px 8px;border-radius:100px;background:rgba(255,255,255,.05);color:rgba(245,239,227,.5);border:1px solid rgba(255,255,255,.07);}
 .tc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:13px;border-top:1px solid var(--border);}
 .tc-price{font-family:'Bebas Neue',sans-serif;font-size:25px;letter-spacing:1px;color:var(--cream);}
 .tc-price small{font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0;}
@@ -245,7 +313,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 /* ── PROFILE PANEL ───────────────────────────────── */
 .panel-ov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:flex-end;}
 .panel-ov.open{display:flex;}
-.panel{width:100%;max-height:92svh;background:#111;border-radius:20px 20px 0 0;border-top:1px solid var(--border);overflow-y:auto;-webkit-overflow-scrolling:touch;animation:shUp .35s cubic-bezier(.16,1,.3,1);}
+.panel{width:100%;max-height:92svh;background:var(--black-2);border-radius:20px 20px 0 0;border-top:1px solid var(--border);overflow-y:auto;-webkit-overflow-scrolling:touch;animation:shUp .35s cubic-bezier(.16,1,.3,1);}
 @keyframes shUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @media(min-width:700px){
   .panel-ov{align-items:stretch;}
@@ -277,7 +345,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .psec:last-of-type{border-bottom:none;padding-bottom:120px;}
 .psec-t{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:9px;}
 .psec-t::after{content:'';flex:1;height:1px;background:var(--border);}
-.ph-bio{font-size:14px;line-height:1.75;color:rgba(242,237,228,.65);}
+.ph-bio{font-size:14px;line-height:1.75;color:rgba(245,239,227,.65);}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;}
 .pi{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;border:1px solid var(--border);background:var(--card);transition:all .2s;position:relative;overflow:hidden;}
 .pi:hover{border-color:var(--orange);}
@@ -296,7 +364,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .rev-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
 .rev-name{font-weight:600;font-size:13px;}
 .rev-stars{color:var(--gold);font-size:12px;}
-.rev-text{font-size:13px;color:rgba(242,237,228,.6);line-height:1.65;}
+.rev-text{font-size:13px;color:rgba(245,239,227,.6);line-height:1.65;}
 .rev-date{font-size:10px;color:var(--muted);margin-top:5px;}
 .ph-cta{position:sticky;bottom:0;padding:14px 22px;padding-bottom:calc(14px + var(--safe-b));background:rgba(17,17,17,.97);border-top:1px solid var(--border);display:flex;gap:11px;align-items:center;backdrop-filter:blur(10px);}
 .ph-cta .btn-primary{flex:1;justify-content:center;}
@@ -304,42 +372,53 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .ph-from-price{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--cream);line-height:1;}
 
 /* ── JOIN SECTION ────────────────────────────────── */
-.join-sec{padding:clamp(48px,8vw,80px) 24px;background:var(--cream);color:var(--black);}
+.join-sec{
+  padding:clamp(48px,8vw,80px) 24px;
+  background:linear-gradient(160deg,#1A1510 0%,#16120E 40%,#130F0B 100%);
+  color:var(--cream);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+/* Warm sand glow in corner */
+.join-sec::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(ellipse at center,rgba(200,149,108,.07) 0%,transparent 65%);pointer-events:none;}
 @media(min-width:900px){.join-sec{padding:80px 52px;}}
-.join-sec .eyebrow{color:var(--orange);}
-.join-sec .eyebrow::before{background:var(--orange);}
-.join-sec .sec-title{color:var(--black);}
+.join-sec .eyebrow{color:var(--sand);}
+.join-sec .eyebrow::before{background:var(--sand);}
+.join-sec .sec-title{color:var(--cream);}
 .join-sec .sec-title .ital{font-family:'Instrument Serif',serif;font-style:italic;color:var(--orange);}
+.join-sec .sec-title .ital-sand{font-family:'Instrument Serif',serif;font-style:italic;color:var(--sand);}
 .join-grid{display:grid;grid-template-columns:1fr;gap:48px;margin-top:48px;}
 @media(min-width:900px){.join-grid{grid-template-columns:1fr 1fr;gap:72px;align-items:start;}}
-.join-left-body{font-size:clamp(14px,1.8vw,16px);line-height:1.8;color:rgba(10,10,10,.6);margin-bottom:32px;}
-.join-left-body strong{color:var(--black);}
-.jblist{display:flex;flex-direction:column;gap:18px;}
+.join-left-body{font-size:clamp(14px,1.8vw,16px);line-height:1.8;color:var(--cream-dim);margin-bottom:28px;}
+.join-left-body strong{color:var(--cream);}
+.jblist{display:flex;flex-direction:column;gap:14px;}
 .jbi{display:flex;gap:13px;align-items:flex-start;}
-.jbi-ic{width:36px;height:36px;flex-shrink:0;background:var(--o-dim);border-radius:9px;font-size:16px;display:flex;align-items:center;justify-content:center;}
-.jbi h4{font-size:14px;font-weight:700;color:var(--black);margin-bottom:2px;}
-.jbi p{font-size:13px;color:rgba(10,10,10,.55);line-height:1.6;}
-.join-form{background:var(--black);border-radius:20px;padding:clamp(24px,5vw,40px);color:var(--cream);}
+.jbi-ic{width:34px;height:34px;flex-shrink:0;background:var(--o-dim);border-radius:9px;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.jbi h4{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:1px;}
+.jbi p{font-size:12px;color:rgba(245,239,227,.45);line-height:1.5;}
+.join-form{background:var(--black-2);border:1px solid var(--border-2);border-radius:20px;padding:clamp(24px,5vw,40px);color:var(--cream);}
 .join-form h3{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:4px;}
-.join-form>p{font-size:13px;color:rgba(242,237,228,.4);margin-bottom:26px;}
+.join-form>p{font-size:13px;color:rgba(245,239,227,.4);margin-bottom:26px;}
 .fg{margin-bottom:13px;}
-.fg label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(242,237,228,.4);margin-bottom:7px;}
-.fg input,.fg select{width:100%;padding:13px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;font-size:16px;color:var(--cream);outline:none;transition:border-color .2s;-webkit-appearance:none;}
-.fg input::placeholder{color:rgba(242,237,228,.25);}
-.fg input:focus,.fg select:focus{border-color:var(--orange);}
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238A8278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;}
-.fg select option{background:#111;}
+.fg label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(245,239,227,.38);margin-bottom:7px;}
+.fg input,.fg select{width:100%;padding:13px 14px;background:rgba(245,239,227,.05);border:1px solid rgba(245,239,227,.09);border-radius:8px;font-size:16px;color:var(--cream);outline:none;transition:border-color .2s,background .2s;-webkit-appearance:none;}
+.fg input::placeholder{color:rgba(245,239,227,.22);}
+.fg input:focus,.fg select:focus{border-color:var(--orange);background:rgba(255,75,31,.04);}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%237A7469' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;}
+.fg select option{background:var(--black-2);}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
 .btn-sub{width:100%;background:var(--orange);color:#fff;border:none;border-radius:10px;padding:16px;font-size:15px;font-weight:700;transition:all .2s;margin-top:5px;min-height:52px;-webkit-tap-highlight-color:transparent;}
 .btn-sub:hover{background:#e03a10;}
 .btn-sub:active{background:#c9340f;transform:scale(.99);}
-.fnote{text-align:center;font-size:11px;color:rgba(242,237,228,.3);margin-top:11px;line-height:1.6;}
+.fnote{text-align:center;font-size:11px;color:rgba(245,239,227,.3);margin-top:11px;line-height:1.6;}
 
 /* ── BOOKING MODAL ───────────────────────────────── */
 .bm-ov{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none;align-items:flex-end;justify-content:center;}
 .bm-ov.open{display:flex;}
 @media(min-width:600px){.bm-ov{align-items:center;padding:24px;}}
-.bm{background:#111;border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;position:relative;animation:bmUp .3s cubic-bezier(.16,1,.3,1);overflow:hidden;max-height:92svh;overflow-y:auto;}
+.bm{background:var(--black-2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;position:relative;animation:bmUp .3s cubic-bezier(.16,1,.3,1);overflow:hidden;max-height:92svh;overflow-y:auto;}
 @keyframes bmUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @media(min-width:600px){.bm{border-radius:20px;max-width:460px;animation:bmIn .3s cubic-bezier(.16,1,.3,1);}@keyframes bmIn{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}}
 .bm-handle{display:flex;justify-content:center;padding:12px 0 0;}
@@ -357,11 +436,11 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .bm-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
 .deposit-box{background:var(--o-dim);border:1px solid rgba(255,74,28,.22);border-radius:10px;padding:13px 15px;margin-bottom:18px;}
 .deposit-box-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;}
-.deposit-box p{font-size:13px;color:rgba(242,237,228,.7);line-height:1.6;}
+.deposit-box p{font-size:13px;color:rgba(245,239,227,.7);line-height:1.6;}
 .deposit-box strong{color:var(--cream);}
 .wa-box{display:flex;align-items:flex-start;gap:9px;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.18);border-radius:10px;padding:13px;margin-top:14px;}
 .wa-box-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
-.wa-box p{font-size:12px;color:rgba(242,237,228,.65);line-height:1.6;}
+.wa-box p{font-size:12px;color:rgba(245,239,227,.65);line-height:1.6;}
 .wa-box strong{color:var(--green);}
 
 footer{padding:clamp(32px,5vw,48px) 24px;padding-bottom:calc(clamp(32px,5vw,48px) + var(--safe-b));border-top:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
@@ -370,10 +449,10 @@ footer{padding:clamp(32px,5vw,48px) 24px;padding-bottom:calc(clamp(32px,5vw,48px
 .footer-logo em{color:var(--orange);font-style:normal;}
 footer>p{font-size:12px;color:var(--muted);}
 .footer-links{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:4px 0;}
-.footer-links a{color:rgba(242,237,228,.45);font-size:12px;text-decoration:none;transition:color .2s;}
+.footer-links a{color:rgba(245,239,227,.45);font-size:12px;text-decoration:none;transition:color .2s;}
 .footer-links a:hover{color:var(--cream);}
-.footer-dot{color:rgba(242,237,228,.15);font-size:12px;}
-.footer-legal{font-size:11px;color:rgba(242,237,228,.25);max-width:440px;line-height:1.7;}
+.footer-dot{color:rgba(245,239,227,.15);font-size:12px;}
+.footer-legal{font-size:11px;color:rgba(245,239,227,.25);max-width:440px;line-height:1.7;}
 .toast{position:fixed;bottom:calc(24px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(16px);background:var(--cream);color:var(--black);padding:12px 22px;border-radius:100px;font-size:14px;font-weight:600;z-index:9990;opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
@@ -390,7 +469,7 @@ footer>p{font-size:12px;color:var(--muted);}
 .status-dot.confirmed{background:var(--green);}
 .status-text{font-size:12px;font-weight:600;color:#FFA500;}
 .confirm-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.5px;margin-bottom:8px;}
-.confirm-body{font-size:14px;color:rgba(242,237,228,.6);line-height:1.7;margin-bottom:24px;text-align:left;}
+.confirm-body{font-size:14px;color:rgba(245,239,227,.6);line-height:1.7;margin-bottom:24px;text-align:left;}
 
 /* Timeline */
 .confirm-timeline{text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:0;}
@@ -425,10 +504,10 @@ footer>p{font-size:12px;color:var(--muted);}
 
 
 .footer-links{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px 0;}
-.footer-links a{color:rgba(242,237,228,.5);font-size:12px;text-decoration:none;transition:color .2s;}
+.footer-links a{color:rgba(245,239,227,.5);font-size:12px;text-decoration:none;transition:color .2s;}
 .footer-links a:hover{color:var(--cream);}
-.footer-dot{color:rgba(242,237,228,.2);font-size:12px;}
-.footer-legal{font-size:11px;color:rgba(242,237,228,.3);max-width:480px;margin:0 auto 12px;line-height:1.7;text-align:center;}
+.footer-dot{color:rgba(245,239,227,.2);font-size:12px;}
+.footer-legal{font-size:11px;color:rgba(245,239,227,.3);max-width:480px;margin:0 auto 12px;line-height:1.7;text-align:center;}
 
 </style>
 </head>
@@ -452,14 +531,18 @@ footer>p{font-size:12px;color:var(--muted);}
   </button>
 </nav>
 <div class="nav-mob" id="navMob" aria-hidden="true">
-  <a href="#find-talent" onclick="closeNav()">Find Talent</a>
-  <a href="#how-it-works" onclick="closeNav()">How It Works</a>
-  <a href="#for-students" onclick="closeNav()">For Students</a>
-  <a href="#for-students" class="mob-cta" onclick="closeNav()">Join the Waitlist →</a>
+  <div class="nav-mob-links">
+    <a href="#find-talent" onclick="closeNav()">Find Talent <span class="arr">→</span></a>
+    <a href="#how-it-works" onclick="closeNav()">How It Works <span class="arr">→</span></a>
+    <a href="#verify" onclick="closeNav()">Verification <span class="arr">→</span></a>
+    <a href="#for-students" onclick="closeNav()">For Students <span class="arr">→</span></a>
+  </div>
+  <a href="#for-students" class="mob-cta" onclick="closeNav()">JOIN FREE →</a>
 </div>
 
 <!-- ══ HERO ═══════════════════════════════════════ -->
 <section class="hero">
+  <div class="hero-line" aria-hidden="true"></div>
   <div class="hero-bg" aria-hidden="true">SKILLZA</div>
   <div class="hero-inner">
     <div class="hero-left">
@@ -624,7 +707,7 @@ footer>p{font-size:12px;color:var(--muted);}
   <div>
     <div class="eyebrow">Trust Infrastructure</div>
     <h2 class="sec-title">Student Card<br>Verified.<br>Full stop.</h2>
-    <p class="sec-sub" style="color:rgba(242,237,228,.6)">Every provider uploads their university student card before their profile goes live. Your university already did the hard ID work. We make that trust visible to clients.</p>
+    <p class="sec-sub" style="color:rgba(245,239,227,.6)">Every provider uploads their university student card before their profile goes live. Your university already did the hard ID work. We make that trust visible to clients.</p>
     <div class="vpoints">
       <div class="vp"><div class="vp-ic">🎓</div><div><h4>University-backed identity</h4><p>Student cards require enrolment verification to issue. Every provider is a real, currently enrolled student at a recognised SA institution.</p></div></div>
       <div class="vp"><div class="vp-ic">🔒</div><div><h4>Safe for clients. Credibility for students.</h4><p>Clients know who they're booking. Students get a verified badge that signals professionalism before they've said a word.</p></div></div>
@@ -719,7 +802,7 @@ footer>p{font-size:12px;color:var(--muted);}
     <span class="footer-dot">·</span>
     <a href="#" onclick="openLegal('terms');return false;">Terms of Service</a>
     <span class="footer-dot">·</span>
-    <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a>
+    <a href="/cdn-cgi/l/email-protection#bed6dbd2d2d1fecdd5d7d2d2c4df90ddd190c4df"><span class="__cf_email__" data-cfemail="87efe2ebebe8c7f4eceeebebfde6a9e4e8a9fde6">[email&#160;protected]</span></a>
   </div>
   <p class="footer-legal">Skillza is a marketplace platform. We verify student enrolment but do not supervise bookings or guarantee outcomes. Use good judgment when meeting in person.</p>
   <p>© 2026 Skillza. Built for SA students. POPIA compliant.</p>
@@ -820,7 +903,7 @@ footer>p{font-size:12px;color:var(--muted);}
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const T=[
   {id:1,name:"Amahle Khumalo",sh:"Amahle K.",uni:"UCT",deg:"BA Visual Communication",yr:"3rd Year",sk:"Photographer",cat:"photography",em:"📸",tags:["Events","Portraits","Matric Dances"],pr:"R850",sp:"R550",un:"session",rt:"4.9",rv:23,jb:31,
    bio:"Third-year Visual Communication student at UCT. I've shot over 30 events — matric dances, graduations, 21sts — and my work has been featured in the UCT student publication. I believe every event deserves to be remembered properly.",
@@ -1137,23 +1220,23 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
 .lm-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);background:rgba(255,74,28,.1);border:1px solid rgba(255,74,28,.2);border-radius:100px;padding:4px 14px;margin-bottom:16px;}
 .lm-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);letter-spacing:2px;line-height:1;margin-bottom:10px;}
 .lm-meta{font-size:12px;color:var(--muted);margin-bottom:24px;display:flex;gap:16px;flex-wrap:wrap;}
-.lm-intro{font-size:14px;color:rgba(242,237,228,.75);line-height:1.8;padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;}
+.lm-intro{font-size:14px;color:rgba(245,239,227,.75);line-height:1.8;padding:18px 20px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;}
 .lm-rule{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .lm h2{font-family:'Instrument Sans',sans-serif;font-size:16px;font-weight:700;color:var(--cream);margin:32px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
 .lm h3{font-size:13px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 8px;}
-.lm p{font-size:14px;color:rgba(242,237,228,.7);margin-bottom:12px;line-height:1.8;}
+.lm p{font-size:14px;color:rgba(245,239,227,.7);margin-bottom:12px;line-height:1.8;}
 .lm ul{margin:8px 0 14px 0;padding:0;}
-.lm ul li{font-size:14px;color:rgba(242,237,228,.7);line-height:1.8;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);}
+.lm ul li{font-size:14px;color:rgba(245,239,227,.7);line-height:1.8;padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);}
 .lm ul li::before{content:'→';position:absolute;left:0;color:var(--orange);font-size:11px;top:6px;}
 .lm ul li:last-child{border-bottom:none;}
 .lm .hb{background:rgba(255,74,28,.06);border:1px solid rgba(255,74,28,.15);border-radius:10px;padding:14px 18px;margin:16px 0;}
-.lm .hb p{margin:0;color:rgba(242,237,228,.8);}
+.lm .hb p{margin:0;color:rgba(245,239,227,.8);}
 .lm .wb{background:rgba(212,168,83,.06);border:1px solid rgba(212,168,83,.2);border-radius:10px;padding:14px 18px;margin:16px 0;}
-.lm .wb p{margin:0;color:rgba(242,237,228,.8);}
+.lm .wb p{margin:0;color:rgba(245,239,227,.8);}
 .lm a{color:var(--orange);}
 </style>
 <div id="legalOv" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:flex-end;justify-content:center;">
-  <div style="background:#111;border-radius:20px 20px 0 0;border-top:1px solid var(--border);width:100%;max-width:720px;max-height:90svh;overflow-y:auto;padding:36px 28px 56px;position:relative;animation:shUp .35s cubic-bezier(.16,1,.3,1);">
+  <div style="background:var(--black-2);border-radius:20px 20px 0 0;border-top:1px solid var(--border);width:100%;max-width:720px;max-height:90svh;overflow-y:auto;padding:36px 28px 56px;position:relative;animation:shUp .35s cubic-bezier(.16,1,.3,1);">
     <button onclick="closeLegal()" style="position:absolute;top:20px;right:20px;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--cream);border-radius:8px;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
 
     <!-- Privacy Policy -->
@@ -1165,7 +1248,7 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
       <hr class="lm-rule">
       <h2>1. Who We Are</h2>
       <p>Skillza is a South African student talent marketplace that connects university students offering services with clients seeking affordable, verified creative and professional talent. We act as the responsible party for personal information collected through our platform.</p>
-      <div class="hb"><p>📧 Contact: <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a></p></div>
+      <div class="hb"><p>📧 Contact: <a href="/cdn-cgi/l/email-protection#b3dbd6dfdfdcf3c0d8dadfdfc9d29dd0dc9dc9d2"><span class="__cf_email__" data-cfemail="6d05080101022d1e06040101170c430e0243170c">[email&#160;protected]</span></a></p></div>
       <h2>2. What Information We Collect</h2>
       <h3>From Clients (people booking students)</h3>
       <ul><li>Full name</li><li>WhatsApp number</li><li>Email address</li><li>Description of services requested</li><li>Booking reference numbers</li></ul>
@@ -1182,7 +1265,7 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
       <h2>5. Who Can See Your Information</h2>
       <p>We do not sell, trade, or share your personal information with third parties except:</p>
       <ul><li>Service providers who process data on our behalf (Google, Formspree) — under their respective privacy policies</li><li>Where required by South African law or a court order</li><li>With your explicit consent</li></ul>
-      <div class="hb"><p>Student profiles displayed on the Skillza website are intentionally public — name, skill, university, bio, portfolio, and pricing. If you are a student and wish to remove your profile, contact us at <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a>.</p></div>
+      <div class="hb"><p>Student profiles displayed on the Skillza website are intentionally public — name, skill, university, bio, portfolio, and pricing. If you are a student and wish to remove your profile, contact us at <a href="/cdn-cgi/l/email-protection#066e636a6a6946756d6f6a6a7c67286569287c67"><span class="__cf_email__" data-cfemail="bdd5d8d1d1d2fdced6d4d1d1c7dc93ded293c7dc">[email&#160;protected]</span></a>.</p></div>
       <h2>6. Student Card Information</h2>
       <p>Student card photos are collected solely for the purpose of verifying current university enrolment. They are:</p>
       <ul><li>Stored securely in a private Google Drive folder accessible only to Skillza staff</li><li>Never displayed publicly on the platform</li><li>Never shared with clients or third parties</li><li>Deleted upon request or when no longer needed for verification</li></ul>
@@ -1191,16 +1274,16 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
       <h2>8. Your Rights Under POPIA</h2>
       <p>As a data subject under POPIA, you have the right to:</p>
       <ul><li>Access the personal information we hold about you</li><li>Request correction of inaccurate information</li><li>Request deletion of your information</li><li>Object to the processing of your information</li><li>Lodge a complaint with the Information Regulator of South Africa</li></ul>
-      <p>To exercise any of these rights, contact us at <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a>. We will respond within 30 days.</p>
-      <div class="hb"><p>The Information Regulator of South Africa can be contacted at: <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a></p></div>
+      <p>To exercise any of these rights, contact us at <a href="/cdn-cgi/l/email-protection#274f424b4b4867544c4e4b4b5d46094448095d46"><span class="__cf_email__" data-cfemail="09616c656566497a626065657368276a66277368">[email&#160;protected]</span></a>. We will respond within 30 days.</p>
+      <div class="hb"><p>The Information Regulator of South Africa can be contacted at: <a href="/cdn-cgi/l/email-protection#462e232a2a2906352d2f2a2a3c27682529683c27"><span class="__cf_email__" data-cfemail="e48c8188888ba4978f8d88889e85ca878bca9e85">[email&#160;protected]</span></a></p></div>
       <h2>9. Cookies and Tracking</h2>
       <p>Our current website does not use tracking cookies, advertising cookies, or third-party analytics scripts. We may introduce basic analytics in future and will update this policy accordingly.</p>
       <h2>10. Children and Minors</h2>
-      <p>Our platform is intended for university students who are 18 years of age or older. We do not knowingly collect personal information from persons under 18. If you believe we have inadvertently collected information from a minor, contact us immediately at <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a>.</p>
+      <p>Our platform is intended for university students who are 18 years of age or older. We do not knowingly collect personal information from persons under 18. If you believe we have inadvertently collected information from a minor, contact us immediately at <a href="/cdn-cgi/l/email-protection#771f121b1b1837041c1e1b1b0d16591418590d16"><span class="__cf_email__" data-cfemail="69010c050506291a020005051308470a06471308">[email&#160;protected]</span></a>.</p>
       <h2>11. Changes to This Policy</h2>
       <p>We may update this Privacy Policy from time to time. We will notify active users of material changes via email. Continued use of the platform after changes constitutes acceptance of the updated policy.</p>
       <h2>12. Contact Us</h2>
-      <ul><li>Email: <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a></li><li>Website: <a href="https://skillza.co.za">skillza.co.za</a></li></ul>
+      <ul><li>Email: <a href="/cdn-cgi/l/email-protection#ef878a838380af9c84868383958ec18c80c1958e"><span class="__cf_email__" data-cfemail="4129242d2d2e01322a282d2d3b206f222e6f3b20">[email&#160;protected]</span></a></li><li>Website: <a href="https://skillza.co.za">skillza.co.za</a></li></ul>
     </div>
 
     <!-- Terms of Service -->
@@ -1233,7 +1316,7 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
       <p>Skillza accepts no liability for any payment disputes, fraud, non-payment, or financial loss arising from transactions between Clients and Students.</p>
       <h2>6. Safety and Conduct</h2>
       <p>All users agree to:</p>
-      <ul><li>Treat all other users with respect and professionalism</li><li>Meet in safe, public, or professional spaces for first-time in-person jobs</li><li>Never use the platform to solicit or engage in any illegal activity</li><li>Report any suspicious, threatening, or inappropriate behaviour to <a href="mailto:hello@skillza.co.za">hello@skillza.co.za</a> immediately</li></ul>
+      <ul><li>Treat all other users with respect and professionalism</li><li>Meet in safe, public, or professional spaces for first-time in-person jobs</li><li>Never use the platform to solicit or engage in any illegal activity</li><li>Report any suspicious, threatening, or inappropriate behaviour to <a href="/cdn-cgi/l/email-protection#cfa7aaa3a3a08fbca4a6a3a3b5aee1aca0e1b5ae"><span class="__cf_email__" data-cfemail="bfd7dad3d3d0ffccd4d6d3d3c5de91dcd091c5de">[email&#160;protected]</span></a> immediately</li></ul>
       <div class="wb"><p>⚠️ Skillza verifies student enrolment but does not conduct criminal background checks on Students or Clients. Users are responsible for exercising their own judgment and due diligence before meeting in person or engaging services.</p></div>
       <h2>7. Student Responsibilities</h2>
       <p>By listing on Skillza, Students agree to:</p>
@@ -1243,11 +1326,4 @@ document.getElementById('legalOv').addEventListener('click',function(e){if(e.tar
       <ul><li>Provide a clear and accurate brief for the services required</li><li>Pay the agreed deposit before work begins</li><li>Pay the balance upon satisfactory completion</li><li>Treat Students with respect and professionalism</li><li>Not use booking requests to collect student contact details for purposes other than the stated booking</li></ul>
       <h2>9. Limitation of Liability</h2>
       <p>To the fullest extent permitted by South African law:</p>
-      <ul><li>Skillza is not liable for any loss, damage, injury, or harm arising from any booking made through the platform</li><li>Skillza is not liable for any payment disputes between Clients and Students</li><li>Skillza is not liable for any failure by a Student to deliver services</li><li>Skillza is not liable for any property damage, personal injury, or loss occurring during a job</li><li>Skillza is not liable for the conduct, character, or actions of any Student or Client</li></ul>
-      <div class="hb"><p>Our total liability to you, in any circumstance, shall not exceed <strong>R500</strong>.</p></div>
-      <h2>10. Intellectual Property</h2>
-      <p>Students retain full ownership of all work created through bookings facilitated on Skillza, unless a separate written agreement with the Client specifies otherwise. Skillza claims no ownership over any work created by Students.</p>
-      <p>Skillza retains ownership of its platform, branding, and all content created by Skillza. You may not reproduce, copy, or distribute Skillza branding or platform content without written permission.</p>
-      <h2>11. Account Termination</h2>
-      <p>Skillza reserves the right to remove any Student profile or block any Client from the platform, without notice, if we determine that they have:</p>
-      <ul><li>Viol
+      <ul><li>Skillza is not liable for any loss, damage, injury, or harm arising from any booking made through the platform</li><li>Skil
