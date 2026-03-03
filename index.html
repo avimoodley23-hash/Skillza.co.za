@@ -143,7 +143,11 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
   padding:calc(60px + env(safe-area-inset-top,0px) + 48px) 24px 48px;
   position:relative;overflow:hidden;
 }
-@media(min-width:900px){.hero{padding:140px 52px 80px;}}
+/* On desktop, hero aligns center so headline sits mid-screen */
+@media(min-width:900px){
+  .hero{justify-content:center;padding-top:100px;padding-bottom:100px;}
+  .hero-left{display:flex;flex-direction:column;justify-content:center;}
+}
 /* Subtle warm top fade — no gap */
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:50%;background:linear-gradient(180deg,rgba(255,75,31,.025) 0%,transparent 100%);pointer-events:none;z-index:0;}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:180px;background:linear-gradient(to top,var(--black) 0%,transparent 100%);pointer-events:none;z-index:0;}
@@ -153,6 +157,8 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
 .hero-inner{position:relative;z-index:1;}
 @media(min-width:900px){.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:flex-end;}}
 
+@media(min-width:900px){.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}}
+
 .hero-left{}
 .hero-super{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
 .hero-super::before{content:'';width:20px;height:1.5px;background:var(--orange);}
@@ -160,7 +166,48 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
 .hero h1 .ital{font-family:'Instrument Serif',serif;font-style:italic;color:var(--orange);}
 
 .hero-right{margin-top:32px;}
-@media(min-width:900px){.hero-right{margin-top:0;}}
+@media(min-width:900px){.hero-right{margin-top:0;display:flex;flex-direction:column;gap:0;}}
+
+/* ── HERO CARD STACK (desktop only) ─── */
+.hero-cards{display:none;}
+@media(min-width:900px){
+  .hero-cards{
+    display:block;position:relative;
+    height:260px;margin-bottom:32px;
+  }
+}
+.hc{
+  position:absolute;
+  background:var(--black-3);
+  border:1px solid rgba(245,239,227,.1);
+  border-radius:16px;padding:16px 18px;
+  width:230px;
+  box-shadow:0 24px 48px rgba(0,0,0,.5);
+}
+.hc-1{top:0;left:0;transform:rotate(-4deg);z-index:1;border-color:rgba(255,75,31,.15);}
+.hc-2{top:24px;left:80px;z-index:2;border-color:rgba(91,156,246,.2);}
+.hc-3{top:10px;left:170px;transform:rotate(3deg);z-index:1;border-color:rgba(52,213,142,.15);}
+.hc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.hc-1::before{background:var(--orange);}
+.hc-2::before{background:var(--blue);}
+.hc-3::before{background:var(--green);}
+.hc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.hc-em{width:36px;height:36px;border-radius:8px;background:rgba(245,239,227,.06);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.hc-name{font-weight:700;font-size:13px;color:var(--cream);line-height:1.2;}
+.hc-uni{font-size:10px;color:var(--muted);margin-top:1px;}
+.hc-skill{font-size:11px;color:var(--muted-2);margin-bottom:8px;}
+.hc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid rgba(245,239,227,.06);}
+.hc-price{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.5px;color:var(--cream);}
+.hc-badge{font-size:9px;font-weight:700;padding:3px 7px;border-radius:100px;letter-spacing:.3px;}
+.hc-badge.v{background:rgba(52,213,142,.12);color:var(--green);border:1px solid rgba(52,213,142,.25);}
+.hc-badge.r{background:rgba(212,168,83,.1);color:var(--gold);border:1px solid rgba(212,168,83,.2);}
+/* Subtle float animations, staggered */
+.hc-1{animation:hcf1 6s ease-in-out infinite;}
+.hc-2{animation:hcf2 6s ease-in-out infinite 1.2s;}
+.hc-3{animation:hcf3 6s ease-in-out infinite 2.4s;}
+@keyframes hcf1{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-4deg) translateY(-7px)}}
+@keyframes hcf2{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes hcf3{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-6px)}}
 
 /* Two-sided value pills — simplified */
 .hero-two-sides{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
@@ -653,6 +700,33 @@ footer>p{font-size:12px;color:var(--muted);}
       <h1>Agency quality.<br>Student prices.<br><span class="ital">SA verified.</span></h1>
     </div>
     <div class="hero-right">
+      <!-- Floating card preview — desktop only -->
+      <div class="hero-cards" aria-hidden="true">
+        <div class="hc hc-1">
+          <div class="hc-top">
+            <div class="hc-em">📸</div>
+            <div><div class="hc-name">Amahle K.</div><div class="hc-uni">UCT · Visual Comm</div></div>
+          </div>
+          <div class="hc-skill">Photography · Events &amp; Portraits</div>
+          <div class="hc-foot"><div class="hc-price">from R550</div><span class="hc-badge v">✓ Verified</span></div>
+        </div>
+        <div class="hc hc-2">
+          <div class="hc-top">
+            <div class="hc-em">🎨</div>
+            <div><div class="hc-name">Luca M.</div><div class="hc-uni">Red &amp; Yellow · Brand Comm</div></div>
+          </div>
+          <div class="hc-skill">Graphic Design · Brand &amp; Identity</div>
+          <div class="hc-foot"><div class="hc-price">from R650</div><span class="hc-badge r">★ 5.0</span></div>
+        </div>
+        <div class="hc hc-3">
+          <div class="hc-top">
+            <div class="hc-em">🎬</div>
+            <div><div class="hc-name">Sipho D.</div><div class="hc-uni">AFDA · Film &amp; TV</div></div>
+          </div>
+          <div class="hc-skill">Videography · Events &amp; Reels</div>
+          <div class="hc-foot"><div class="hc-price">from R1,200</div><span class="hc-badge v">✓ Verified</span></div>
+        </div>
+      </div>
       <div class="hero-two-sides">
         <div class="side-pill">
           <div class="sp-icon">🎯</div>
@@ -675,7 +749,7 @@ footer>p{font-size:12px;color:var(--muted);}
       </div>
       <div class="hero-proof">
         <div><div class="proof-num">12<em>+</em></div><div class="proof-lbl">Skills available</div></div>
-        <div><div class="proof-num"><em>&lt;</em>2<em>min</em></div><div class="proof-lbl">To book someone</div></div>
+        <div><div class="proof-num"><em>R</em>0</div><div class="proof-lbl">No fees to book</div></div>
         <div><div class="proof-num">100<em>%</em></div><div class="proof-lbl">Student verified</div></div>
       </div>
     </div>
