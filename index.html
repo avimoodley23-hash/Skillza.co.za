@@ -190,10 +190,12 @@ body::after{content:'';position:fixed;top:-20%;left:50%;transform:translateX(-50
 .ts-half{padding:clamp(48px,8vw,80px) 24px;}
 @media(min-width:900px){
   .ts-half{padding:80px 52px;}
-  .ts-half.client{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
-  .ts-half.client .feat-list{grid-template-columns:1fr 1fr;display:grid;gap:20px;}
+  .ts-half.client{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+  /* feat-list on desktop: 1 col stacked, not 2-col grid */
+  .ts-half.client .feat-list{display:flex;flex-direction:column;gap:20px;}
 }
 .ts-half.client{background:var(--black-2);}
+.ts-left{display:flex;flex-direction:column;}
 
 .ts-half .sec-title{color:var(--cream);}
 .ts-half .sec-sub{color:rgba(245,239,227,.6);}
@@ -656,7 +658,7 @@ footer>p{font-size:12px;color:var(--muted);}
           <div class="sp-icon">🎯</div>
           <div>
             <div class="sp-label blue">Find Talent</div>
-            <div class="sp-body">Photographers, designers, videographers, chefs, DJs — trained at SA's top creative schools. Student Card verified so you know exactly who you're booking.</div>
+            <div class="sp-body">Photographers, designers, videographers, chefs, DJs. Trained at SA's top creative schools. Student Card verified so you know exactly who you're booking.</div>
           </div>
         </div>
         <div class="side-pill">
@@ -685,15 +687,21 @@ footer>p{font-size:12px;color:var(--muted);}
 
   <!-- CLIENT SIDE -->
   <div class="ts-half client">
-    <div class="tag-pill tag-blue">🎯 Find Talent</div>
-    <h2 class="sec-title">Local talent.<br>Affordable prices.<br><span style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--blue)">Serious quality.</span></h2>
-    <p class="sec-sub">Mid-degree students at UCT, AFDA, Red &amp; Yellow, Wits and ICA — trained full-time in exactly what you need. Lower prices because they're students. The quality isn't.</p>
+    <div class="ts-left">
+      <div class="tag-pill tag-blue">🎯 Find Talent</div>
+      <h2 class="sec-title">Local talent.<br>Affordable prices.<br><span style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--blue)">Serious quality.</span></h2>
+      <p class="sec-sub">Mid-degree students at UCT, AFDA, Red &amp; Yellow, Wits and ICA. Trained full-time in exactly what you need. Lower prices because they're students. The quality isn't.</p>
+      <div class="ts-quote blue" style="margin-top:28px;">
+        <div class="ts-quote-text">"You're getting someone who trained for this, who wants to add your project to their portfolio, and who is going to show up and do their absolute best. That motivation is worth everything."</div>
+        <div class="ts-quote-source">Why Skillza Works for Clients</div>
+      </div>
+    </div>
     <div class="feat-list">
       <div class="feat">
         <div class="feat-icon blue">🎓</div>
         <div>
           <h4>Trained at SA's best creative institutions</h4>
-          <p>These aren't hobbyists — they spend every day studying and practising the exact skill you need.</p>
+          <p>These aren't hobbyists. They spend every day studying and practising the exact skill you need.</p>
         </div>
       </div>
       <div class="feat">
@@ -706,7 +714,7 @@ footer>p{font-size:12px;color:var(--muted);}
       <div class="feat">
         <div class="feat-icon blue">✅</div>
         <div>
-          <h4>Student Card verified — you know who's coming</h4>
+          <h4>Student Card verified. You know who's coming.</h4>
           <p>Every provider uploads their university student card before going live. No anonymous strangers, no guesswork.</p>
         </div>
       </div>
@@ -714,13 +722,9 @@ footer>p{font-size:12px;color:var(--muted);}
         <div class="feat-icon blue">🔒</div>
         <div>
           <h4>Protected from the first rand</h4>
-          <p>A 30% deposit locks in the booking — you don't pay in full upfront, and students don't work without commitment.</p>
+          <p>A 30% deposit locks in the booking. You don't pay in full upfront, and students don't work without commitment.</p>
         </div>
       </div>
-    </div>
-    <div class="ts-quote blue">
-      <div class="ts-quote-text">"You're getting someone who trained for this, who wants to add your project to their portfolio, and who is going to show up and do their absolute best. That motivation is worth everything."</div>
-      <div class="ts-quote-source">Why Skillza Works for Clients</div>
     </div>
   </div>
 
@@ -773,18 +777,18 @@ footer>p{font-size:12px;color:var(--muted);}
     <div class="step">
       <div class="step-num">02</div>
       <h3>No account, no friction</h3>
-      <p>Fill in a short form — what you need and when. The student reaches out on WhatsApp within 24 hours to confirm scope. Direct, human, no platform middleman getting in the way.</p>
+      <p>Fill in a short form with what you need and when. The student reaches out on WhatsApp within 24 hours to confirm scope. Direct, human, no platform in the way.</p>
       <div class="step-badge">📱 Connected via WhatsApp</div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <h3>You're covered the whole way</h3>
-      <p>30% deposit before work starts — via EFT or SnapScan. Balance only on completion. Scope is agreed upfront. Both parties leave verified reviews. No surprises for either side.</p>
+      <p>30% deposit before work starts, via EFT or SnapScan. Balance only on completion. Scope is agreed upfront. Both parties leave verified reviews. No surprises for either side.</p>
     </div>
   </div>
   <div class="phase-callout">
     <div class="pc-label">Phase 1 — How it works right now</div>
-    <div class="pc-body">Skillza is launching lean. <strong>No login needed to book.</strong> All communication happens via WhatsApp — we make the introduction, you handle the rest. Deposits go directly between parties via EFT or SnapScan. <strong>Secure in-platform payments and student dashboards are coming in Phase 2.</strong></div>
+    <div class="pc-body">Skillza is launching lean. <strong>No login needed to book.</strong> All communication happens via WhatsApp. We make the introduction, you handle the rest. Deposits go directly between parties via EFT or SnapScan. <strong>Secure in-platform payments and student dashboards are coming in Phase 2.</strong></div>
   </div>
 </section>
 
@@ -797,7 +801,7 @@ footer>p{font-size:12px;color:var(--muted);}
     <div class="vpoints">
       <div class="vp"><div class="vp-ic">🎓</div><div><h4>University-backed identity</h4><p>Student cards require enrolment verification to issue. Every provider is a real, currently enrolled student at a recognised SA institution.</p></div></div>
       <div class="vp"><div class="vp-ic">🔒</div><div><h4>Safe for clients. Credibility for students.</h4><p>Clients know who they're booking. Students get a verified badge that signals professionalism before they've said a word.</p></div></div>
-      <div class="vp"><div class="vp-ic">⚡</div><div><h4>Priority at launch campuses</h4><p>UCT, Wits, AFDA, Red &amp; Yellow, ICA — verified within 24 hours of submission.</p></div></div>
+      <div class="vp"><div class="vp-ic">⚡</div><div><h4>Priority at launch campuses</h4><p>UCT, Wits, AFDA, Red &amp; Yellow, ICA. Verified within 24 hours of submission.</p></div></div>
     </div>
   </div>
   <div class="scv">
@@ -831,15 +835,15 @@ footer>p{font-size:12px;color:var(--muted);}
   <h2 class="sec-title">Turn your skills<br>into income,<br><span class="ital">starting now.</span></h2>
   <div class="join-grid">
     <div>
-      <p class="join-left-body">You're already good at this. People are already asking you to do it — sometimes for free, sometimes for "exposure". <strong>Skillza gets you in front of clients who are ready to pay, and makes sure every job you do now builds a career, not just a favour bank.</strong></p>
+      <p class="join-left-body">You're already good at this. People are already asking you to do it. Sometimes for free, sometimes for "exposure". <strong>Skillza gets you in front of clients who are ready to pay, and makes sure every job you do now builds a career, not just a favour bank.</strong></p>
       <div class="jblist">
-        <div class="jbi"><div class="jbi-ic">💸</div><div><h4>Earn on your own terms</h4><p>Pick up jobs when it suits your schedule — a shoot on Saturday, a logo between exams. Real income from skills you're already developing.</p></div></div>
-        <div class="jbi"><div class="jbi-ic">📁</div><div><h4>Every job is a real portfolio piece</h4><p>Class projects are one thing. Work a paying client briefed, approved, and vouches for — that's what gets you hired after graduation.</p></div></div>
-        <div class="jbi"><div class="jbi-ic">🔨</div><div><h4>The experience your degree doesn't teach</h4><p>Managing client expectations, delivering under pressure, handling real feedback — ten jobs teaches you more than a semester of theory.</p></div></div>
+        <div class="jbi"><div class="jbi-ic">💸</div><div><h4>Earn on your own terms</h4><p>Pick up jobs when it suits your schedule. A shoot on Saturday, a logo between exams. Real income from skills you're already developing.</p></div></div>
+        <div class="jbi"><div class="jbi-ic">📁</div><div><h4>Every job is a real portfolio piece</h4><p>Class projects are one thing. Work a paying client briefed, approved and vouched for. That's what gets you hired after graduation.</p></div></div>
+        <div class="jbi"><div class="jbi-ic">🔨</div><div><h4>The experience your degree doesn't teach</h4><p>Managing client expectations, delivering under pressure, handling real feedback. Ten jobs teaches you more than a semester of theory.</p></div></div>
         <div class="jbi"><div class="jbi-ic">⭐</div><div><h4>A track record that survives graduation</h4><p>Your reviews and completed jobs don't disappear when you leave. They travel with you into every interview and every pitch.</p></div></div>
       </div>
       <div class="ts-quote orange" style="margin-top:32px;">
-        <div class="ts-quote-text">"You're not unemployed. You're underexposed. Skillza closes that gap — and makes sure the work you do while you're studying counts for something long after you leave."</div>
+        <div class="ts-quote-text">"You're not unemployed. You're underexposed. Skillza closes that gap. The work you do while studying counts for something long after you leave."</div>
         <div class="ts-quote-source">The Skillza Premise</div>
       </div>
     </div>
@@ -903,7 +907,7 @@ footer>p{font-size:12px;color:var(--muted);}
         </div>
       </div>
       <div class="bm-title" id="bmTi">Book Amahle</div>
-      <div class="bm-sub">Tell us what you need. No account required &mdash; we'll connect you directly on WhatsApp.</div>
+      <div class="bm-sub">Tell us what you need. No account required. We'll connect you directly on WhatsApp.</div>
       <div class="deposit-box">
         <div class="deposit-box-title">How Payment Works</div>
         <p>Once scope is agreed via WhatsApp, the student sends their deposit details. You pay a <strong>30% deposit via EFT or SnapScan</strong> before work begins. Balance on completion.</p>
@@ -961,7 +965,7 @@ footer>p{font-size:12px;color:var(--muted);}
       </div>
 
       <button class="btn-sub" onclick="closeBm()" style="margin-top:20px;">Done</button>
-      <p class="fnote" style="margin-top:10px;">Check your email for a confirmation. If you don't hear back within 24 hours, the request may have expired &mdash; you can book again or try another student.</p>
+      <p class="fnote" style="margin-top:10px;">Check your email for a confirmation. If you don't hear back within 24 hours, the request may have expired. You can book again or try another student.</p>
     </div>
 
   </div>
